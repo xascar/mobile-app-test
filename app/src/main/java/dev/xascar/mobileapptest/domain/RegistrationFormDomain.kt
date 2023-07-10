@@ -1,27 +1,27 @@
 package dev.xascar.mobileapptest.domain
 
-import android.text.InputFilter
-import android.text.SpannableStringBuilder
-import android.util.Log
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import dev.xascar.mobileapptest.model.DataX
 import dev.xascar.mobileapptest.model.FieldProperties
 import dev.xascar.mobileapptest.model.Values
 
-
-data class RegistrationFormDomain<out T : Any>(
-    val fieldName: String,
-    val type: String, // text, select, checkbox
-    val visible: Boolean,
-    val maxLength: Int?,
-    val regex: String,
-    val values: List<String>,
-    val order: Int,
-    val description: String
+@Entity
+data class RegistrationFormDomain(
+    @PrimaryKey val fieldName: String,
+    @ColumnInfo(name = "type") val type: String, // text, select, checkbox
+    @ColumnInfo(name = "visible") val visible: Boolean,
+    @ColumnInfo(name = "max_length") val maxLength: Int?,
+    @ColumnInfo(name = "regex") val regex: String,
+    @ColumnInfo(name = "values") val values: String,
+    @ColumnInfo(name = "order") val order: Int,
+    @ColumnInfo(name = "description") val description: String
 )
 
-fun DataX.mapToDomain(): List<RegistrationFormDomain<Any>> {
+fun DataX.mapToDomain(): List<RegistrationFormDomain> {
 
-    val registrationFormDomainList =  mutableListOf<RegistrationFormDomain<Any>>()
+    val registrationFormDomainList =  mutableListOf<RegistrationFormDomain>()
 
     registrationFormDomainList.addFieldProperty(amlCheck, "amlCheck")
     registrationFormDomainList.addFieldProperty(bankIban, "bankIban")
@@ -39,7 +39,7 @@ fun DataX.mapToDomain(): List<RegistrationFormDomain<Any>> {
     return registrationFormDomainList
 }
 
-fun MutableList<RegistrationFormDomain<Any>>.addFieldProperty(element: FieldProperties<Any>, description: String): Boolean{
+fun MutableList<RegistrationFormDomain>.addFieldProperty(element: FieldProperties<Any>, description: String): Boolean{
     return this.add(
         RegistrationFormDomain(
             fieldName = this.toString(),
@@ -54,47 +54,21 @@ fun MutableList<RegistrationFormDomain<Any>>.addFieldProperty(element: FieldProp
     )
 }
 
-fun getRegexFilter(regexPattern: String): InputFilter {
-    return InputFilter { source, start, end, dest, dstart, dend ->
-        try {
-            val input = StringBuilder(dest)
-                .replace(dstart, dend, source.subSequence(start, end).toString())
-                .toString()
-
-            Log.d("getRegexFilter", "getRegexFilter (${input.length}): $regexPattern")
-
-            val newText = dest.subSequence(0, dstart).toString() + input +
-                    dest.subSequence(dend, dest.length).toString()
-
-            if (!newText.matches(regexPattern.toRegex())) {
-                if (source is SpannableStringBuilder) {
-                    source.clear()
-                } else {
-                    return@InputFilter ""
-                }
-            }
-        } catch (e: Exception) {
-            Log.d("getRegexFilter", "exception: $e")
-        }
-        null
-    }
-}
-
-fun getItemsFromValue(values: Any?): List<String>{
+fun getItemsFromValue(values: Any?): String{
     return when (values) {
         is List<*> -> {
             val stringList = values.mapNotNull { it as? String }
             if (stringList.size == values.size) {
-                stringList
+                stringList.toString()
             }else {
-                emptyList()
+                emptyList<String>().toString()
             }
         }
         is Values -> {
-            listOf(values.lv,values.ru)
+            listOf(values.lv,values.ru).toString()
         }
         else -> {
-            emptyList()
+            emptyList<String>().toString()
         }
     }
 }

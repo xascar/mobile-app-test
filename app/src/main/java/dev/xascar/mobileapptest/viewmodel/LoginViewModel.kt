@@ -18,8 +18,8 @@ class LoginViewModel @Inject constructor(
     private val platonRepository: PlatonRepository
 ) : ViewModel() {
 
-    private var _registration = MutableLiveData<List<RegistrationFormDomain<Any>>>()
-    val registration: LiveData<List<RegistrationFormDomain<Any>>> = _registration
+    private var _registration = MutableLiveData<List<RegistrationFormDomain>>()
+    val registration: LiveData<List<RegistrationFormDomain>> = _registration
 
     private var _message = MutableLiveData("")
     val message: LiveData<String> = _message

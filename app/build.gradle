@@ -66,9 +66,15 @@ dependencies {
     // ViewModel KTX library provides a viewModelScope() function that makes it easier to launch coroutines from ViewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
 
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.7.20"
 
+    //For caching data
+    def room_version = "2.5.2"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:2.5.2"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
 
