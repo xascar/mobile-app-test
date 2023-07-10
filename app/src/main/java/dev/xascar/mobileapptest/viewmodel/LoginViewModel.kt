@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.xascar.mobileapptest.domain.RegistrationFormDomain
-import dev.xascar.mobileapptest.model.RegistrationResponse
+import dev.xascar.mobileapptest.model.Data
 import dev.xascar.mobileapptest.model.UserRegistration
 import dev.xascar.mobileapptest.repository.PlatonRepository
 import dev.xascar.mobileapptest.util.ResultState
@@ -24,7 +24,17 @@ class LoginViewModel @Inject constructor(
     private var _message = MutableLiveData("")
     val message: LiveData<String> = _message
 
-    fun getRegistrationFields(user: UserRegistration) {
+    init {
+        getRegistrationFields(
+            UserRegistration(
+                data = Data(newRegistration = true),
+                login = "testaffiliateexternal",
+                password = "testaffiliateexternal"
+            )
+        )
+    }
+
+    private fun getRegistrationFields(user: UserRegistration) {
 
         viewModelScope.launch {
 
@@ -33,7 +43,7 @@ class LoginViewModel @Inject constructor(
                     _message.value = ""
                 }
                 is ResultState.Success -> {
-                    _message.value = "Datos de registro recuperados: ${response.data}"
+                    _message.value = ""
                     _registration.value = response.data
                 }
                 is ResultState.Error -> {
@@ -44,6 +54,10 @@ class LoginViewModel @Inject constructor(
 
         }
 
+    }
+
+    fun updateMessage(text: String){
+        _message.value = text
     }
 
 }

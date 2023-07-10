@@ -9,8 +9,6 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-//https://platon.cf-it.at/
-
 interface PlatonService {
     @Headers(HEADERS)
     @POST(ENDPOINT)
