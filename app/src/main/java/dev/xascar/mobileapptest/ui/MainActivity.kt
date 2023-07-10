@@ -111,13 +111,16 @@ class MainActivity : AppCompatActivity() {
                             LinearLayout.LayoutParams.WRAP_CONTENT
                         )
                         autoCompleteTextView.inputType = InputType.TYPE_NULL
-                        autoCompleteTextView.setAdapter(
-                            ArrayAdapter(
-                                this,
-                                android.R.layout.simple_list_item_1,
-                                view.values
+                        if (view.values.contains(",")){
+                            autoCompleteTextView.setAdapter(
+                                ArrayAdapter(
+                                    this,
+                                    android.R.layout.simple_list_item_1,
+                                    view.values.substring(1,view.values.length-2).split(",")
+                                )
                             )
-                        )
+                        }
+
 
                         textInputLayout.addView(autoCompleteTextView)
 
