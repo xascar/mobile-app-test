@@ -1,9 +1,8 @@
 package dev.xascar.mobileapptest.model
 
-
 import com.google.gson.annotations.SerializedName
 
-data class AmlCheck(
+data class FieldProperties<out T: Any>(
     @SerializedName("auto_approve")
     val autoApprove: Boolean,
     @SerializedName("cl_visible")
@@ -27,13 +26,13 @@ data class AmlCheck(
     @SerializedName("mapper")
     val mapper: String,
     @SerializedName("maxlength")
-    val maxlength: Any,
+    val maxlength: Int?,
     @SerializedName("newline")
     val newline: Boolean,
     @SerializedName("order")
     val order: Int,
     @SerializedName("regex")
-    val regex: String,
+    val regex: String?,
     @SerializedName("req")
     val req: Boolean,
     @SerializedName("split")
@@ -42,6 +41,8 @@ data class AmlCheck(
     val step: Int,
     @SerializedName("type")
     val type: String,
+    @SerializedName("values")
+    val values: T?,
     @SerializedName("visible")
     val visible: Boolean
 )
